@@ -5,12 +5,13 @@ This project is a full-stack web application for buying and selling scrap and us
 Clone the repository and install dependencies:
 
 git clone https://github.com/your-username/web-scraping-website.git
+
 cd web-scraping-website
+
 npm install
 
 Start the development server:
-
 npm run dev
 
-📌 Usage
+
 1️⃣ Open the website: Eman Plastic Recycling via link "https://emanplasticrecycling.com/"
