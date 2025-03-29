@@ -1,0 +1,38 @@
+.text-container{
+    width: 90%;
+    margin: 4% auto;
+    border-radius: 10px;
+}
+
+.stats-container{
+    border-radius: 10px;
+}
+
+.gradient-btn{
+    background: linear-gradient(45deg, #333333, #000000); 
+    color: white;
+    border: none; 
+    padding: 22px 26px; 
+    font-size: 14px;
+    font-weight: bold; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: background 0.3s ease, transform 0.3s ease; 
+    outline: none; 
+    text-transform: uppercase; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.gradient-btn:hover {
+    background: linear-gradient(45deg, #000000, #333333); 
+    transform: scale(1.05); 
+}
+
+.gradient-btn:focus {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5); 
+}
+
+.gradient-btn:active {
+    background: linear-gradient(45deg, #000000, #333333);
+    transform: scale(0.95);
+}

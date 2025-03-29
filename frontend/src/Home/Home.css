@@ -1,0 +1,41 @@
+
+.order-now-btn,.sell-now-btn {
+    background: linear-gradient(135deg, #00358b, #002766); 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .order-now-btn:hover,.sell-now-btn:hover {
+    background: linear-gradient(135deg, #000, #000); 
+    transform: translateY(-3px); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .order-now-link,.sell-now-link {
+    width: 100%;
+  }
+  
+  .order-now-btn span,.sell-now-btn span {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .order-now-btn span::after,.sell-now-btn span::after {
+    content: '→';
+    margin-left: 8px;
+    font-size: 16px;
+    transition: margin-left 0.3s;
+  }
+  
+  .order-now-btn:hover span::after,.sell-now-btn:hover span::after {
+    margin-left: 12px;
+  }

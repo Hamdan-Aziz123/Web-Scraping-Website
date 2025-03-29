@@ -1,0 +1,44 @@
+.edit-page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 10px;
+  }
+  
+  .edit-page h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .edit-page form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit-page label {
+    margin-bottom: 10px;
+  }
+  
+  .edit-page input,
+  .edit-page textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .edit-page button {
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-page button:hover {
+    background: #0056b3;
+  }
+  
