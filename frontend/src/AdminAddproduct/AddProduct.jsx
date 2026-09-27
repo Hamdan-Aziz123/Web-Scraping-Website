@@ -1,5 +1,9 @@
 import React, { useState} from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { API_BASE_URL } from "../config/api";
+import "./AddProduct.css";
 const AddProduct = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -45,7 +49,7 @@ const AddProduct = () => {
     );
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/addproduct",
+        `${API_BASE_URL}/api/admin/addproduct`,
         {
           title: title,
           price: price,
@@ -73,109 +77,122 @@ const AddProduct = () => {
   };
 
   return (
-    <div
-      style={{
-        margin: "50px auto",
-        padding: "100px",
-      }}
-    >
+    <div className="admin-page">
+      <div className="admin-page__header">
+        <div>
+          <h2 className="admin-page__title">Add Product</h2>
+          <p className="admin-page__subtitle">
+            New products appear on the Products or Used Items page based on their category.
+          </p>
+        </div>
+      </div>
       {errorMsg && <div className="alert alert-info">{errorMsg}</div>}
-      <form onSubmit={handleSubmitproduct}>
-        <div className="form-group">
-          <label htmlFor="image">Upload Product Image</label>
-          <div className="mb-3">
-            <label htmlFor="image" className="d-block">
-              <img
-                src={image ? URL.createObjectURL(image) : "/Placeholder.jpg"}
-                alt="img upload"
-                className="img-thumbnail"
-                style={{ cursor: "pointer", width: "150px", height: "150px" }}
-              />
-            </label>
-            <input
-              onChange={(e) => setImage(e.target.files[0])}
-              type="file"
-              id="image"
-              className="form-control-file d-none"
-            />
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="title">Product Title</label>
+      <form onSubmit={handleSubmitproduct} className="admin-card add-product-form">
+        <div className="add-product-form__media">
+          <span className="form-label d-block">Upload Product Image</span>
           <input
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Product Title"
-            className="form-control"
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setImage(e.target.files[0])}
+            type="file"
+            id="image"
+            accept="image/*"
+            className="visually-hidden"
           />
+          <label htmlFor="image" className="image-upload">
+            {image ? (
+              <img
+                src={URL.createObjectURL(image)}
+                alt="img upload"
+                className="image-upload__preview"
+              />
+            ) : (
+              <span className="image-upload__empty">
+                <FontAwesomeIcon icon={faCloudArrowUp} className="image-upload__icon" />
+                <span className="image-upload__text">Click to choose an image</span>
+                <span className="image-upload__hint">JPG or PNG</span>
+              </span>
+            )}
+          </label>
         </div>
-        <div className="form-group">
-          <label htmlFor="description">Product Description</label>
-          <textarea
-            id="description"
-            name="description"
-            rows="6"
-            placeholder="Write Product description here..."
-            className="form-control"
-            required
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
-        </div>
-        <div className="form-row">
-          <div className="form-group col-md-6">
-            <label htmlFor="category">Product Category</label>
-            <select
-              id="category"
-              name="category"
-              className="form-control"
-              required
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="category">Category</option>
-              <option value="Used Scrap">Used Scrap</option>
-              <option value="Plastics">Plastics</option>
-              <option value="Metals">Metals</option>
-            </select>
-          </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="quantity">Product Quantity</label>
+
+        <div className="add-product-form__fields">
+          <div className="mb-3">
+            <label htmlFor="title" className="form-label">Product Title</label>
             <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              placeholder="Quantity"
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Product Title"
               className="form-control"
-              min={1}
               required
-              value={Quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="price">Product Price</label>
-            <input
-              type="number"
-              id="price"
-              name="price"
-              placeholder="AED"
+          <div className="mb-3">
+            <label htmlFor="description" className="form-label">Product Description</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="5"
+              placeholder="Write Product description here..."
               className="form-control"
-              min={1}
               required
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="row g-3">
+            <div className="col-md-4">
+              <label htmlFor="category" className="form-label">Product Category</label>
+              <select
+                id="category"
+                name="category"
+                className="form-select"
+                required
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="category">Category</option>
+                <option value="Used Scrap">Used Scrap</option>
+                <option value="Plastics">Plastics</option>
+                <option value="Metals">Metals</option>
+              </select>
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="quantity" className="form-label">Product Quantity</label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                placeholder="Quantity"
+                className="form-control"
+                min={1}
+                required
+                value={Quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="price" className="form-label">Product Price</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                placeholder="AED"
+                className="form-control"
+                min={1}
+                required
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="add-product-form__footer">
+            <button type="submit" className="btn btn-primary">
+              ADD
+            </button>
           </div>
         </div>
-        <div className="form-group col-md-6"></div>
-        <button type="submit" className="btn btn-primary my-3 w-25">
-          ADD
-        </button>
       </form>
     </div>
   );

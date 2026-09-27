@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPhone, faEnvelope, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { API_BASE_URL } from "../config/api";
+import "./Contactus.css";
 
 const ContactUs = () => {
-  const ContactPageStyle = {
-    backgroundImage:
-      "-webkit-gradient(linear, left top, left bottom, from(rgba(28,72,102,0.3)), to(rgba(28,72,102,0.3))), url(ContactUsBcakground.jpg)",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    padding: "50px 0",
-    width: "100%",
-    height: "100%",
-  };
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -23,7 +17,7 @@ const ContactUs = () => {
   const submitMessage = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/contactus/saveMessage",
+        `${API_BASE_URL}/api/contactus/saveMessage`,
         {
           name: name,
           email: email,
@@ -65,108 +59,119 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="contactBody" style={ContactPageStyle}>
-      <Container className="formStyle" style={{ margin: "100px auto" }}>
+    <div className="contactBody">
+      <Container className="formStyle">
+        <div className="contact-intro">
+          <span className="eyebrow">Contact</span>
+          <h1 className="contact-intro__title">GET IN TOUCH</h1>
+          <p className="contact-intro__text">
+            Want to buy, or have scrap to sell? Send us a message and our team
+            will get back to you.
+          </p>
+        </div>
+
         {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
         {successMsg && <Alert variant="success">{successMsg}</Alert>}
-        <Row className="justify-content-center text-center">
-          <Col md={12}>
-            <h2
-              style={{ fontSize: "40px", marginBottom: "20px", color: "White" }}
-            >
-              GET IN TOUCH
-            </h2>
-            <p style={{ fontSize: "18px", color: "White" }}>
-              <i className="fa fa-phone"></i> Phone: 00971525742383 /
-              00971564881535
-            </p>
-            <p style={{ fontSize: "18px", color: "White" }}>
-              <i className="fa fa-envelope"></i> Email:
-              Emanplasticrecycling1@gmail.com
-            </p>
-            <p style={{ fontSize: "18px", color: "White" }}>
-              <i className="fa fa-map-marker"></i> Address: Eman plastics waste
-              recycling Al bidya industrial estate ,Fujairah UAE
-            </p>
+
+        <Row className="g-4 align-items-stretch">
+          <Col lg={5}>
+            <div className="contact-info">
+              <div className="contact-info__item">
+                <span className="contact-info__icon">
+                  <FontAwesomeIcon icon={faPhone} />
+                </span>
+                <div>
+                  <div className="contact-info__label">Phone</div>
+                  <div className="contact-info__value">
+                    <a href="tel:00971525742383">00971525742383</a> /{" "}
+                    <a href="tel:00971564881535">00971564881535</a>
+                  </div>
+                </div>
+              </div>
+              <div className="contact-info__item">
+                <span className="contact-info__icon">
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </span>
+                <div>
+                  <div className="contact-info__label">Email</div>
+                  <div className="contact-info__value">
+                    <a href="mailto:Emanplasticrecycling1@gmail.com">
+                      Emanplasticrecycling1@gmail.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="contact-info__item">
+                <span className="contact-info__icon">
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </span>
+                <div>
+                  <div className="contact-info__label">Address</div>
+                  <div className="contact-info__value">
+                    Eman plastics waste recycling Al bidya industrial estate
+                    ,Fujairah UAE
+                  </div>
+                </div>
+              </div>
+            </div>
           </Col>
-        </Row>
 
-        <Row className="justify-content-center">
-          <Col md={6}>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="formName">
-                <Form.Control
-                  type="text"
-                  placeholder="YOUR NAME *"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  style={{
-                    border: "1px solid grey",
-                    color: "#000",
-                    padding: "20px",
-                    marginBottom: "15px",
-                  }}
-                />
-              </Form.Group>
+          <Col lg={7}>
+            <div className="contact-form-card">
+              <Form onSubmit={handleSubmit}>
+                <Row className="g-3">
+                  <Col md={6}>
+                    <Form.Group controlId="formName">
+                      <Form.Label>Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="YOUR NAME *"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group controlId="formPhone">
+                      <Form.Label>Phone</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="YOUR PHONE *"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={12}>
+                    <Form.Group controlId="formEmail">
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control
+                        type="email"
+                        placeholder="YOUR EMAIL *"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={12}>
+                    <Form.Group controlId="formMessage">
+                      <Form.Label>Message</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={5}
+                        placeholder="YOUR MESSAGE *"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
 
-              <Form.Group controlId="formEmail">
-                <Form.Control
-                  type="email"
-                  placeholder="YOUR EMAIL *"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  style={{
-                    border: "1px solid grey",
-                    color: "#000",
-                    padding: "20px",
-                    marginBottom: "15px",
-                  }}
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formPhone">
-                <Form.Control
-                  type="text"
-                  placeholder="YOUR PHONE *"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  style={{
-                    border: "1px solid grey",
-                    color: "#000",
-                    padding: "20px",
-                    marginBottom: "15px",
-                  }}
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formMessage">
-                <Form.Control
-                  as="textarea"
-                  rows={5}
-                  placeholder="YOUR MESSAGE *"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  style={{
-                    border: "1px solid grey",
-                    color: "#000",
-                    padding: "20px",
-                    marginBottom: "15px",
-                  }}
-                />
-              </Form.Group>
-
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: "#e33f43",
-                  border: "none",
-                  padding: "10px 30px",
-                  fontSize: "18px",
-                }}
-              >
-                SEND MESSAGE
-              </Button>
-            </Form>
+                <Button type="submit" variant="primary" className="contact-submit">
+                  SEND MESSAGE
+                </Button>
+              </Form>
+            </div>
           </Col>
         </Row>
       </Container>

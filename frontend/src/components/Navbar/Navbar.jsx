@@ -1,112 +1,123 @@
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightToBracket, faSignOut } from "@fortawesome/free-solid-svg-icons";
+import {
+  faRightToBracket,
+  faSignOut,
+  faUserPlus,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { useDispatch } from "react-redux";
+import "./Navbar.css";
 
-function NavScrollExample() {
+const navLinkClass = ({ isActive }) =>
+  `nav-link site-nav__link${isActive ? " active" : ""}`;
+
+function NavScrollExample({ isAdmin = false }) {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
   };
 
-  return (
-    <Navbar
-      expand="lg"
-      sticky="top"
-      className="bg-body-tertiary"
-      variant="light"
-    >
-      <Container fluid>
-        <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: "100px" }}
-            navbarScroll
-          >
-            <Link to="/" className="nav-link">
-              Home
-            </Link>
-            <NavDropdown title="Products" id="navbarScrollingDropdown">
-              <Link to="/products" className="nav-link">
-                Scrap Items
-              </Link>
-              <Link to="/usedscrap" className="nav-link">
-                Used Items
-              </Link>
-            </NavDropdown>
+  const initial = (user?.firstName || user?.email || "U").charAt(0).toUpperCase();
 
-            <Link to="/contactus" className="nav-link">
-              Contact Us
-            </Link>
-            <Link to="/aboutus" className="nav-link">
-              About Us
-            </Link>
-            <Link to="/checkout" className="nav-link">
-              Order Now
-            </Link>
-          </Nav>
-          <Form className="d-flex">
-            {isAuthenticated ? (
-              <Nav className="ms-auto">
+  const accountControls = (
+    <div className="site-nav__actions">
+      {!isAdmin && (
+        <Link to="/checkout" className="cta-btn cta-btn--primary site-nav__cta">
+          Order Now
+          <FontAwesomeIcon icon={faArrowRight} className="cta-btn__arrow" />
+        </Link>
+      )}
+      {isAuthenticated ? (
+        <NavDropdown
+          title={
+            <span className="site-nav__avatar" aria-label="Account menu">
+              {initial}
+            </span>
+          }
+          id="profile-dropdown"
+          align="end"
+          className="site-nav__profile"
+        >
+          {user && (
+            <div className="site-nav__profile-head">
+              <div className="site-nav__profile-name">
+                {user.firstName} {user.lastName}
+              </div>
+              <div className="site-nav__profile-email">{user.email}</div>
+            </div>
+          )}
+          {!isAdmin && (
+            <NavDropdown.Item as={Link} to="/signup">
+              <FontAwesomeIcon icon={faUserPlus} />
+              <span>Signup</span>
+            </NavDropdown.Item>
+          )}
+          <NavDropdown.Item as={Link} to="/" onClick={handleLogout}>
+            <FontAwesomeIcon icon={faSignOut} />
+            <span>Logout</span>
+          </NavDropdown.Item>
+        </NavDropdown>
+      ) : (
+        <Link to="/login" className="cta-btn cta-btn--outline site-nav__login">
+          <FontAwesomeIcon icon={faRightToBracket} />
+          Login
+        </Link>
+      )}
+    </div>
+  );
+
+  return (
+    <Navbar expand="lg" sticky="top" className="site-nav" variant="light">
+      <Container className="site-nav__container">
+        <Navbar.Brand as={Link} to="/" className="site-brand">
+          <img
+            src="/eman-logo.png"
+            alt="Eman Plastic Waste Recycling — Deals in all kind of Plastic and Metal Scrap"
+            className="site-brand__logo"
+          />
+        </Navbar.Brand>
+        {isAdmin ? (
+          accountControls
+        ) : (
+          <>
+            <Navbar.Toggle aria-controls="navbarScroll" className="site-nav__toggle" />
+            <Navbar.Collapse id="navbarScroll">
+              <Nav className="mx-lg-auto site-nav__links" navbarScroll>
+                <NavLink to="/" end className={navLinkClass}>
+                  Home
+                </NavLink>
                 <NavDropdown
-                  title={
-                    <span>
-                      <img
-                        src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
-                        alt="Profile"
-                        className="rounded-circle"
-                        width="30"
-                        height="30"
-                      />{" "}
-                    </span>
-                  }
-                  id="profile-dropdown"
-                  align="end"
+                  title="Products"
+                  id="navbarScrollingDropdown"
+                  className="site-nav__dropdown"
                 >
-                  <NavDropdown.Item>
-                    <Link
-                      to="/signup"
-                      style={{ textDecoration: "none", color: "inherit" }}
-                      className="nav-link"
-                    >
-                      <span>Signup </span>
-                      <FontAwesomeIcon icon={faRightToBracket} />
-                    </Link>
+                  <NavDropdown.Item as={Link} to="/products">
+                    Scrap Items
                   </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Link
-                      to="/"
-                      style={{ textDecoration: "none", color: "inherit" }}
-                      onClick={handleLogout}
-                      className="nav-link"
-                    >
-                      <span>Logout </span>
-                      <FontAwesomeIcon icon={faSignOut} />
-                    </Link>
+                  <NavDropdown.Item as={Link} to="/usedscrap">
+                    Used Items
                   </NavDropdown.Item>
                 </NavDropdown>
+                <NavLink to="/contactus" className={navLinkClass}>
+                  Contact Us
+                </NavLink>
+                <NavLink to="/aboutus" className={navLinkClass}>
+                  About Us
+                </NavLink>
               </Nav>
-            ) : (
-              <Link
-                to="/login"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <FontAwesomeIcon icon={faRightToBracket} />
-              </Link>
-            )}
-          </Form>
-        </Navbar.Collapse>
+              {accountControls}
+            </Navbar.Collapse>
+          </>
+        )}
       </Container>
     </Navbar>
   );

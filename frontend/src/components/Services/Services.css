@@ -1,56 +1,78 @@
 .services-section {
-    text-align: center;
-    padding: 40px;
-    background-color: #f8f9fa;
-  }
-  
-  .services-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .services-subtitle {
-    font-size: 1.2rem;
-    color: #6c757d;
-    margin-bottom: 30px;
-  }
-  
+  background: var(--color-bg);
+}
+
+.services-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.service-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-6);
+  text-align: left;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-soft-hover);
+}
+
+.service-card .icon-tile {
+  margin-bottom: var(--space-5);
+}
+
+.service-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.service-description {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+@media (max-width: 991.98px) {
   .services-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
+}
+
+@media (max-width: 575.98px) {
+  .services-container {
+    grid-template-columns: 1fr;
+  }
   .service-card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 300px;
-    text-align: left;
-    transition: transform 0.3s, box-shadow 0.3s;
+    padding: var(--space-5);
   }
-  
-  .service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Phones: icon beside the text so the six cards take less scrolling */
+@media (max-width: 575.98px) {
+  .service-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: var(--space-4);
+    align-items: start;
+    padding: var(--space-4);
   }
-  
-  .service-icon {
-    font-size: 2rem;
-    color: #007bff;
-    margin-bottom: 15px;
+  .service-card .icon-tile {
+    grid-row: span 2;
+    margin-bottom: 0;
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
   }
-  
   .service-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: var(--text-base);
+    margin-bottom: var(--space-1);
   }
-  
-  .service-description {
-    font-size: 1rem;
-    color: #6c757d;
-  }
+}

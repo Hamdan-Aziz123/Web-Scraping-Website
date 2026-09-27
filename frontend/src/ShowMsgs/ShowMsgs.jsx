@@ -1,23 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const AdminContactMsgs = () => {
   const [msgs, setMsgs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   const fetchMsgs = async () => {
+    setLoadError(false);
     try {
-      const response = await axios.post('http://localhost:4000/api/admin/MsgsFetch');
+      const response = await axios.post(`${API_BASE_URL}/api/admin/MsgsFetch`, {}, { timeout: 15000 });
       console.log(response);
-      setMsgs(response.data);
+      setMsgs(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching Msgs:', error);
+      setLoadError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
   const showMsgs = () => {
-    console.log('showMsgs function in show Msgs');
     fetchMsgs();
   };
+
+  // Load the list as soon as the page opens
+  useEffect(() => {
+    showMsgs();
+  }, []);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -25,13 +36,17 @@ const AdminContactMsgs = () => {
   };
 
   return (
-    <div className='container mt-5 my-5'>
-      <div className='d-flex justify-content-center mb-4'>
-        <button className='btn btn-primary' onClick={showMsgs}>Show Messages</button>
+    <div className="admin-page">
+      <div className="admin-page__header">
+        <div>
+          <h2 className="admin-page__title">All Msgs</h2>
+          <p className="admin-page__subtitle">
+            {msgs.length > 0 ? `${msgs.length} messages, newest first` : "Messages sent from the Contact Us page."}
+          </p>
+        </div>
       </div>
-      <p className='h4 text-center mb-4'>All Msgs</p>
       <div className="table-responsive">
-        <table className="table table-striped">
+        <table className="table table-hover admin-table">
           <thead>
             <tr>
               <th scope="col">Name</th>
@@ -42,13 +57,31 @@ const AdminContactMsgs = () => {
             </tr>
           </thead>
           <tbody>
+            {(msgs.length === 0 || loadError) && (
+              <tr>
+                <td colSpan={5} className="admin-empty">
+                  {loading ? (
+                    "Loading messages…"
+                  ) : loadError ? (
+                    <span className="admin-error">
+                      Couldn’t load messages. Is the backend running?{" "}
+                      <button className="btn btn-outline-primary btn-sm" onClick={() => { setLoading(true); fetchMsgs(); }}>
+                        Try again
+                      </button>
+                    </span>
+                  ) : (
+                    "No messages yet."
+                  )}
+                </td>
+              </tr>
+            )}
             {msgs.map((item, index) => (
               <tr key={index}>
-                <td>{item.fullname}</td>
-                <td>{formatDate(item.submitted_at)}</td> {/* Ensure `msgDate` exists in your backend response */}
-                <td>{item.phone_number}</td>
-                <td>{item.email}</td>
-                <td>{item.message}</td>
+                <td className="admin-cell-strong admin-table__title" data-label="Name">{item.fullname}</td>
+                <td className="text-nowrap" data-label="Date">{formatDate(item.submitted_at)}</td>
+                <td className="text-nowrap admin-cell-muted" data-label="Phone">{item.phone_number}</td>
+                <td className="admin-cell-muted" data-label="Email">{item.email}</td>
+                <td className="admin-cell-wrap admin-table__block" data-label="Message">{item.message}</td>
               </tr>
             ))}
           </tbody>

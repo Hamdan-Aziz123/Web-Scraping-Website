@@ -14,4 +14,4 @@ Start the development server:
 npm run dev
 
 
-1️⃣ Open the website: Eman Plastic Recycling via link "https://emanplasticrecycling.com/"
+Run locally: backend in WebscrapBackend (node index.js, port 4000) and frontend in frontend (npm run dev, port 5173).

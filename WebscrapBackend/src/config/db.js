@@ -2,29 +2,20 @@
 require('dotenv').config();
 const mysql = require('mysql2');
 
-// Create a connection pool
-
-// const pool = mysql.createPool({
-//   host: 'srv1783.hstgr.io',      // MySQL host (localhost if using XAMPP)
-//   user: 'u878705125_emanplastic02',           // MySQL user (default XAMPP user is 'root')
-//   password: 'Wajeeha@irfan1',           // MySQL password (leave empty for default XAMPP user)
-//   database: 'u878705125_scrapweb',   // Your database name
-//   // waitForConnections: true,
-//   // connectionLimit: 10,    // Adjust the limit as needed
-//   // queueLimit: 0
-// });
-
 const HOST = process.env.HOST || 'localhost';
 const USER  = process.env.DBUSER || 'root';
 const PASSWORD = process.env.PASSWORD || '';
 const DATABASE = process.env.DATABASE || 'scrapweb';
-console.log("HOSTTTTTTTTTTTTTTTTTTTTTTT",HOST,USER,PASSWORD,DATABASE);
+console.log(`Connecting to MySQL database "${DATABASE}" on ${HOST}`);
 const pool = mysql.createPool({
   host: HOST,      // MySQL host (localhost if using XAMPP)
   user: USER,           // MySQL user (default
   password: PASSWORD,           // MySQL password (leave empty for default XAMPP user)
   database: DATABASE,   // Your database name
-  
+  waitForConnections: true, // queue requests briefly when all connections are busy
+  connectionLimit: 10,
+  queueLimit: 0,
+  enableKeepAlive: true,    // avoid stale connections after long idle periods
 });
 
 module.exports = pool;

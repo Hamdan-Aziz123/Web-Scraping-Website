@@ -45,19 +45,28 @@ const services = [
 
 const Services = () => {
   return (
-    <div className="services-section">
-      <h2 className="services-title">Our Services</h2>
-      <p className="services-subtitle">Attaining sustainable solutions with ease.</p>
-      <div className="services-container">
-        {services.map((service, index) => (
-          <div key={index} className="service-card">
-            <FontAwesomeIcon icon={service.icon} className="service-icon" />
-            <h3 className="service-title">{service.title}</h3>
-            <p className="service-description">{service.description}</p>
-          </div>
-        ))}
+    <section className="services-section section">
+      <div className="container">
+        <div className="section-header">
+          <span className="eyebrow">What we do</span>
+          <h2 className="services-title section-title">Our Services</h2>
+          <p className="services-subtitle section-subtitle">
+            Attaining sustainable solutions with ease.
+          </p>
+        </div>
+        <div className="services-container">
+          {services.map((service, index) => (
+            <div key={index} className="service-card">
+              <span className="icon-tile">
+                <FontAwesomeIcon icon={service.icon} className="service-icon" />
+              </span>
+              <h3 className="service-title">{service.title}</h3>
+              <p className="service-description">{service.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -49,23 +49,32 @@ const ProductsSlider = ({ products }) => {
       {products.map((product, index) => (
         <SwiperSlide key={index}>
           <div className="product-card">
-            <img
-              src={product.ImageUrl}
-              alt={product.Name}
-              className="img-fluid"
-            />
-            <h5>{product.Name}</h5>
-            <p>
-              <strong>AED {product.PricePerKg}</strong>
-            </p>
-            <Link
-              to={`/productdescription/${product.ProductId}`}
-              className="product-link"
-            >
-              <button className="view-more-button">
-                <span>View More</span>
-              </button>
-            </Link>
+            <div className="product-card__media">
+              <img
+                src={product.ImageUrl}
+                alt={product.Name}
+                className="img-fluid"
+                loading="lazy"
+              />
+              {product.Category && (
+                <span className="chip product-card__chip">{product.Category}</span>
+              )}
+            </div>
+            <div className="product-card__body">
+              <h5>{product.Name}</h5>
+              <p className="product-card__price">
+                <strong>AED {product.PricePerKg}</strong>
+                <span className="product-card__unit"> / kg</span>
+              </p>
+              <Link
+                to={`/productdescription/${product.ProductId}`}
+                className="product-link"
+              >
+                <button className="view-more-button">
+                  <span>View More</span>
+                </button>
+              </Link>
+            </div>
           </div>
         </SwiperSlide>
       ))}

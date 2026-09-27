@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../config/api";
 
 const useAxiosWithRefresh = (baseURL) => {
   const [axiosInstance, setAxiosInstance] = useState(() => {
     const instance = axios.create({
-      baseURL: baseURL || "https://your-api-base-url.com",
+      baseURL: baseURL || API_BASE_URL,
       headers: { "Content-Type": "application/json" },
     });
     return instance;
@@ -39,7 +40,7 @@ const useAxiosWithRefresh = (baseURL) => {
             }
 
             const { data } = await axios.post(
-                "http://localhost:4000/api/auth/refresh-token",
+                `${API_BASE_URL}/api/auth/refresh-token`,
                 { token: refreshToken }
             );
 

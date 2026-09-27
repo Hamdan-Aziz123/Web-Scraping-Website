@@ -1,0 +1,36 @@
+.add-product-form {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* Image picker tile styles (.image-upload*) live in src/index.css so the
+   Edit Product page can share them. */
+
+.add-product-form__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.add-product-form__footer .btn {
+  min-width: 160px;
+}
+
+@media (max-width: 991.98px) {
+  .add-product-form {
+    grid-template-columns: 1fr;
+  }
+  .add-product-form__media {
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .add-product-form__footer .btn {
+    width: 100%;
+  }
+}

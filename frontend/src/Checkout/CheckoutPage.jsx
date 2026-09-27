@@ -11,6 +11,8 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import useAxiosWithRefresh from "../hooks/useAxiosRefresh";
+import { API_BASE_URL } from "../config/api";
+import "./CheckoutPage.css";
 
 const CheckoutPage = () => {
   useEffect(() => {
@@ -57,7 +59,7 @@ const CheckoutPage = () => {
   const handleCheckout = async () => {
     try {
       const response = await axiosInstance.post(
-        "http://localhost:4000/api/checkout/checkout",
+        `${API_BASE_URL}/api/checkout/checkout`,
         {
           firstName: firstName,
           lastName: lastName,
@@ -105,221 +107,285 @@ const CheckoutPage = () => {
   };
 
   return (
-    <Container
-      className="mt-5 my-5"
-      style={{ margin: "0 auto", maxWidth: "1200px" }}
-    >
-      {errorMsg && (
-        <Alert variant="danger" dismissible onClose={() => setErrorMsg("")}>
-          <strong>Error!</strong> {errorMsg}
-        </Alert>
-      )}
-      {successMsg && (
-        <Alert variant="success" dismissible onClose={() => setSuccessMsg("")}>
-          <strong>Success!</strong> {successMsg}
-        </Alert>
-      )}
+    <div className="checkout-page">
+      <Container className="checkout-container">
+        <div className="page-header">
+          <span className="eyebrow">Order request</span>
+          <h1 className="page-header__title">Place your order</h1>
+          <p className="page-header__subtitle">
+            Tell us what you need — our team confirms availability and the total
+            amount before anything is processed.
+          </p>
+        </div>
 
-      <Row>
-        <Col md={12}>
-          <Card className="mb-4">
-            <Card.Body>
-              <h3 className="mb-4">Billing Details</h3>
-              <Form onSubmit={handleSubmit}>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group controlId="formFirstName">
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter first name"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group controlId="formLastName">
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter last name"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Form.Group controlId="formAddress" className="mt-3">
-                  <Form.Label>Address</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter address"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group controlId="formCity" className="mt-3">
-                      <Form.Label>City</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter city"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group controlId="formPhone" className="mt-3">
-                      <Form.Label>Phone Number</Form.Label>
-                      <Form.Control
-                        type="tel"
-                        placeholder="Enter phone number"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Form.Group controlId="formEmail" className="mt-3">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Enter email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </Form.Group>
+        {errorMsg && (
+          <Alert variant="danger" dismissible onClose={() => setErrorMsg("")}>
+            <strong>Error!</strong> {errorMsg}
+          </Alert>
+        )}
+        {successMsg && (
+          <Alert variant="success" dismissible onClose={() => setSuccessMsg("")}>
+            <strong>Success!</strong> {successMsg}
+          </Alert>
+        )}
 
-                <h4 className="mt-4">Products</h4>
-                <InputGroup className="mb-3">
-                  <Form.Control
-                    placeholder="Product Name (e.g., Copper)"
-                    value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
-                  />
-                  <Form.Control
-                    type="number"
-                    placeholder="Quantity in Tons"
-                    min="1"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                  />
-                  <Button variant="primary" onClick={handleAddProduct}>
-                    Add Product
-                  </Button>
-                </InputGroup>
+        <Form onSubmit={handleSubmit}>
+          <Row className="g-4">
+            <Col lg={7}>
+              <Card className="checkout-card">
+                <Card.Body>
+                  <h3 className="checkout-card__title">
+                    <span className="checkout-card__step">1</span>
+                    Billing Details
+                  </h3>
+                  <Row className="g-3">
+                    <Col md={6}>
+                      <Form.Group controlId="formFirstName">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter first name"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                      <Form.Group controlId="formLastName">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter last name"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={12}>
+                      <Form.Group controlId="formAddress">
+                        <Form.Label>Address</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter address"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                      <Form.Group controlId="formCity">
+                        <Form.Label>City</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter city"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                      <Form.Group controlId="formPhone">
+                        <Form.Label>Phone Number</Form.Label>
+                        <Form.Control
+                          type="tel"
+                          placeholder="Enter phone number"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={12}>
+                      <Form.Group controlId="formEmail">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                          type="email"
+                          placeholder="Enter email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
 
-                {products.length > 0 && (
-                  <Table striped bordered hover className="mb-4">
-                    <thead>
-                      <tr>
-                        <th>Product</th>
-                        <th>Quantity (Tons)</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+              <Card className="checkout-card">
+                <Card.Body>
+                  <h4 className="checkout-card__title">
+                    <span className="checkout-card__step">2</span>
+                    Products
+                  </h4>
+                  <InputGroup className="checkout-add-product">
+                    <Form.Control
+                      placeholder="Product Name (e.g., Copper)"
+                      value={productName}
+                      onChange={(e) => setProductName(e.target.value)}
+                      aria-label="Product name"
+                    />
+                    <Form.Control
+                      type="number"
+                      placeholder="Quantity in Tons"
+                      min="1"
+                      value={quantity}
+                      onChange={(e) => setQuantity(e.target.value)}
+                      aria-label="Quantity in tons"
+                      className="checkout-add-product__qty"
+                    />
+                    <Button variant="primary" onClick={handleAddProduct}>
+                      Add Product
+                    </Button>
+                  </InputGroup>
+                  <p className="checkout-hint">
+                    Add each product and its quantity, then press “Add Product”.
+                  </p>
+                  {/* Phones/tablets: show what was added right here (desktop shows it in "Your order") */}
+                  {products.length > 0 && (
+                    <ul className="checkout-added d-lg-none">
                       {products.map((product, index) => (
-                        <tr key={index}>
-                          <td>{product.name}</td>
-                          <td>{product.quantity}</td>
-                          <td>
-                            <Button
-                              variant="danger"
-                              size="sm"
-                              onClick={() => handleRemoveProduct(index)}
-                            >
-                              Remove
-                            </Button>
-                          </td>
-                        </tr>
+                        <li key={index} className="checkout-added__item">
+                          <span className="checkout-added__name">{product.name}</span>
+                          <span className="checkout-added__qty">{product.quantity} tons</span>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleRemoveProduct(index)}
+                          >
+                            Remove
+                          </Button>
+                        </li>
                       ))}
-                    </tbody>
-                  </Table>
-                )}
-
-                <h4 className="mt-4">Payment Methods</h4>
-               
-                <Form.Check
-                  type="radio"
-                  label="Cash on Delivery"
-                  name="paymentMethod"
-                  id="cashOnDelivery"
-                  value="cashOnDelivery"
-                  checked={selectedPayment === "cashOnDelivery"}
-                  onChange={(e) => setSelectedPayment(e.target.value)}
-                />
-                <Form.Check
-                  type="radio"
-                  label="Bank Transfer"
-                  name="paymentMethod"
-                  id="bankTransfer"
-                  value="bankTransfer"
-                  checked={selectedPayment === "bankTransfer"}
-                  onChange={(e) => setSelectedPayment(e.target.value)}
-                />
-                
-
-                <div className="mt-3">
-                  {selectedPayment && (
-                    <Card className="p-3 mt-3">
-                      <Card.Body>
-                        {paymentInstructions[selectedPayment]}
-                      </Card.Body>
-                    </Card>
+                    </ul>
                   )}
-                </div>
-                <Form.Group
-                  controlId="formSpecialInstructions"
-                  className="mt-3"
-                >
-                  <Form.Label>Special Instructions</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    placeholder="Enter any special instructions for your order"
-                    value={instruction}
-                    onChange={(e) => setInstruction(e.target.value)}
-                  />
-                </Form.Group>
-                <h4 className="mt-4">Important Note</h4>
-                <Card className="p-3 mt-3">
+                </Card.Body>
+              </Card>
+
+              <Card className="checkout-card">
+                <Card.Body>
+                  <h4 className="checkout-card__title">
+                    <span className="checkout-card__step">3</span>
+                    Payment Methods
+                  </h4>
+                  <div className="payment-options">
+                    <Form.Check
+                      type="radio"
+                      label="Cash on Delivery"
+                      name="paymentMethod"
+                      id="cashOnDelivery"
+                      value="cashOnDelivery"
+                      checked={selectedPayment === "cashOnDelivery"}
+                      onChange={(e) => setSelectedPayment(e.target.value)}
+                      className={`payment-option${selectedPayment === "cashOnDelivery" ? " is-selected" : ""}`}
+                    />
+                    <Form.Check
+                      type="radio"
+                      label="Bank Transfer"
+                      name="paymentMethod"
+                      id="bankTransfer"
+                      value="bankTransfer"
+                      checked={selectedPayment === "bankTransfer"}
+                      onChange={(e) => setSelectedPayment(e.target.value)}
+                      className={`payment-option${selectedPayment === "bankTransfer" ? " is-selected" : ""}`}
+                    />
+                  </div>
+
+                  {selectedPayment && (
+                    <div className="payment-instructions">
+                      {paymentInstructions[selectedPayment]}
+                    </div>
+                  )}
+
+                  <Form.Group controlId="formSpecialInstructions" className="mt-4">
+                    <Form.Label>Special Instructions</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      placeholder="Enter any special instructions for your order"
+                      value={instruction}
+                      onChange={(e) => setInstruction(e.target.value)}
+                    />
+                  </Form.Group>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col lg={5}>
+              <div className="checkout-summary">
+                <Card className="checkout-card checkout-card--summary">
                   <Card.Body>
-                    Thank you for selecting your products and specifying the
-                    quantities you need. Please provide your complete details
-                    along with the product information.
-                    <span
-                      style={{
-                        color: "red",
-                      }}
-                    >
-                      Once received, our team will review the availability and
-                      inform you about the total amount, along with any further
-                      details.
-                    </span>{" "}
-                    After your confirmation, we will proceed with your order.
+                    <div className="checkout-summary__head">
+                      <h4 className="checkout-card__title mb-0">Your order</h4>
+                      <span className="chip chip--neutral">
+                        {products.length} {products.length === 1 ? "product" : "products"}
+                      </span>
+                    </div>
+
+                    {products.length > 0 ? (
+                      <div className="checkout-summary__table d-none d-lg-block">
+                        <Table hover className="mb-0">
+                          <thead>
+                            <tr>
+                              <th>Product</th>
+                              <th>Quantity (Tons)</th>
+                              <th className="text-end">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {products.map((product, index) => (
+                              <tr key={index}>
+                                <td className="fw-semibold">{product.name}</td>
+                                <td>{product.quantity}</td>
+                                <td className="text-end">
+                                  <Button
+                                    variant="danger"
+                                    size="sm"
+                                    onClick={() => handleRemoveProduct(index)}
+                                  >
+                                    Remove
+                                  </Button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </Table>
+                      </div>
+                    ) : (
+                      <div className="checkout-summary__empty">
+                        No products added yet.
+                      </div>
+                    )}
+
+                    <div className="checkout-note">
+                      <h4 className="checkout-note__title">Important Note</h4>
+                      <p className="mb-0">
+                        Thank you for selecting your products and specifying the
+                        quantities you need. Please provide your complete details
+                        along with the product information.{" "}
+                        <span className="checkout-note__highlight">
+                          Once received, our team will review the availability and
+                          inform you about the total amount, along with any further
+                          details.
+                        </span>{" "}
+                        After your confirmation, we will proceed with your order.
+                      </p>
+                    </div>
+
+                    <Button className="w-100 checkout-submit" variant="success" type="submit">
+                      Place Order
+                    </Button>
                   </Card.Body>
                 </Card>
-
-                <Button className="mt-4" variant="success" type="submit">
-                  Place Order
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-        
-      </Row>
-    </Container>
+              </div>
+            </Col>
+          </Row>
+        </Form>
+      </Container>
+    </div>
   );
 };
 
