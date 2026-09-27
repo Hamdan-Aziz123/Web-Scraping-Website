@@ -39,23 +39,28 @@ const qualities = [
 
 const Qualities = () => {
   return (
-    <div className="qualities-section">
-      <h2 className="qualities-title">Why Choose Us</h2>
-      <p className="qualities-subtitle">
-        A simple, smart web-based solution for all your discard needs.
-      </p>
-      <div className="qualities-container">
-        {qualities.map((quality, index) => (
-          <div key={index} className="quality-card">
-            <div className="icon-container">
-              <FontAwesomeIcon icon={quality.icon} className="quality-icon" />
+    <section className="qualities-section section section--surface">
+      <div className="container">
+        <div className="section-header">
+          <span className="eyebrow">Why us</span>
+          <h2 className="qualities-title section-title">Why Choose Us</h2>
+          <p className="qualities-subtitle section-subtitle">
+            A simple, smart web-based solution for all your discard needs.
+          </p>
+        </div>
+        <div className="qualities-container">
+          {qualities.map((quality, index) => (
+            <div key={index} className="quality-card">
+              <div className="icon-container">
+                <FontAwesomeIcon icon={quality.icon} className="quality-icon" />
+              </div>
+              <h3 className="quality-title">{quality.title}</h3>
+              <p className="quality-description">{quality.description}</p>
             </div>
-            <h3 className="quality-title">{quality.title}</h3>
-            <p className="quality-description">{quality.description}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

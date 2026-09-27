@@ -56,80 +56,61 @@ const TextAndStats = () => {
   }
 
   return (
-    <div
-      className="text-container"
-      style={{ padding: "20px 40px", background: "#f0f2f5" }}
-    >
-      <Row gutter={[16, 16]} align="middle">
-        <Col xs={24} md={12}>
-          <div
-            style={{
-              padding: "20px",
-              background: "#f0f2f5",
-              textAlign: "center",
-            }}
-          >
-            <Title level={0}>Welcome to Eman Plastics Waste Recycling</Title>
-            <Paragraph style={{ fontSize: "20px" }}>
-              Located in Al Badiya Industrial Estate, we are dedicated to
-              sustainable waste management and recycling. We deal with metal and
-              plastic scrap materials, from zinc, aluminum, and brass to PP,
-              ABS, and HDPE plastics. Additionally, we specialize in used items
-              such as refrigerators, air conditioners, and televisions. Our
-              commitment to quality and environmental responsibility makes us a
-              trusted partner for businesses and individuals alike.
-            </Paragraph>
-            <Button
-              type="primary"
-              className="gradient-btn"
-              onClick={handleLearnMoreClick}
-            >
-              Learn More
-            </Button>
-          </div>
-        </Col>
+    <section className="section">
+      <div className="container">
+        <div className="text-container">
+          <Row gutter={[24, 32]} align="middle">
+            <Col xs={24} lg={13}>
+              <div className="text-container__intro">
+                <span className="eyebrow">About the company</span>
+                <Title level={2} className="text-container__title">
+                  Welcome to Eman Plastics Waste Recycling
+                </Title>
+                <Paragraph className="text-container__text">
+                  Located in Al Badiya Industrial Estate, we are dedicated to
+                  sustainable waste management and recycling. We deal with metal and
+                  plastic scrap materials, from zinc, aluminum, and brass to PP,
+                  ABS, and HDPE plastics. Additionally, we specialize in used items
+                  such as refrigerators, air conditioners, and televisions. Our
+                  commitment to quality and environmental responsibility makes us a
+                  trusted partner for businesses and individuals alike.
+                </Paragraph>
+                <Button
+                  type="primary"
+                  className="gradient-btn"
+                  onClick={handleLearnMoreClick}
+                >
+                  Learn More
+                </Button>
+              </div>
+            </Col>
 
-        <Col xs={24} md={12}>
-          <div
-            ref={ref}
-            className="stats-container"
-            style={{ padding: "20px", background: "#002766", color: "#fff" }}
-          >
-            <Title
-              level={4}
-              style={{ color: "#fff", fontSize: "24px", textAlign: "center" }}
-            >
-              LET THE NUMBERS TALK
-            </Title>
-            <Row gutter={[16, 16]} justify="center">
-              {stats.map((stat, index) => (
-                <Col key={index} xs={24} sm={12} md={12} lg={12}>
-                  <div style={{ textAlign: "center" }}>
-                    <Title
-                      level={1}
-                      style={{ color: "#fff", margin: 0, fontSize: "48px" }}
-                    >
-                      <AnimatedNumber
-                        value={stat.value}
-                        prefix={stat.prefix}
-                        suffix={stat.suffix}
-                        startAnimation={startAnimation}
-                      />
-                    </Title>
-                    <Title
-                      level={5}
-                      style={{ color: "#fff", fontSize: "16px" }}
-                    >
-                      {stat.description}
-                    </Title>
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          </div>
-        </Col>
-      </Row>
-    </div>
+            <Col xs={24} lg={11}>
+              <div ref={ref} className="stats-container">
+                <Title level={4} className="stats-container__heading">
+                  LET THE NUMBERS TALK
+                </Title>
+                <div className="stats-grid">
+                  {stats.map((stat, index) => (
+                    <div className="stat-item" key={index}>
+                      <div className="stat-item__value">
+                        <AnimatedNumber
+                          value={stat.value}
+                          prefix={stat.prefix}
+                          suffix={stat.suffix}
+                          startAnimation={startAnimation}
+                        />
+                      </div>
+                      <div className="stat-item__label">{stat.description}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    </section>
   );
 };
 

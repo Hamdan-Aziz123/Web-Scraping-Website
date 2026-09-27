@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { API_BASE_URL } from "../config/api";
 
 
 const getTokenExpiration = (token) => {
@@ -15,7 +16,7 @@ const useTokenRefresh = (accessToken, setAccessToken) => {
     const refreshToken = async () => {
       try {
         const response = await axios.post(
-          'http://localhost:4000/api/auth/refresh-token'
+          `${API_BASE_URL}/api/auth/refresh-token`
           , {
           token: localStorage.getItem("refreshToken"), // Or however you store it
         });

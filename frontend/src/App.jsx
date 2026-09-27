@@ -5,9 +5,11 @@ import NavScrollExample from './components/Navbar/Navbar.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import Login from './Login/Login.jsx';
 import Signup from './Signup/Signup.jsx';
+import ForgotPassword from './ForgotPassword/ForgotPassword.jsx';
 import ContactUs from './Contactus/Contactus.jsx';
 import AboutUs from './AboutUs/AboutUs.jsx';
 import ProductsPage from './Products/ProductsPage.jsx';
+import CategoryProducts from './CategoryProducts/CategoryProducts.jsx';
 import UsedScrap from './UsedScrap/UsedScrap.jsx';
 import CheckoutPage from './Checkout/CheckoutPage.jsx';
 import OrderConfirmation from './OrderConfirmation/OrderConfirmation.jsx';
@@ -64,12 +66,15 @@ function App() {
     ?<>
       {loading? <Loader />:
       <>
-      <NavScrollExample />
+      <NavScrollExample isAdmin />
+      <div className="admin-layout">
       <Sidebar />
+      <div className="admin-content">
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<AddProduct />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/addproduct" element={<AddProduct />} />
@@ -81,10 +86,11 @@ function App() {
         <Route path="/usersShow" element={<UsersShow />} />
         {/* <Route path="/sidebar" element={<Sidebar />} /> */}
       </Routes>
-      <Footer />
+      </div>
+      </div>
       </>
   }
-      
+
   </>
   :<>
  {loading? <Loader />:
@@ -94,9 +100,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:category" element={<CategoryProducts />} />
         <Route path="/usedscrap" element={<UsedScrap />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/orderconfirmation" element={<OrderConfirmation />} />

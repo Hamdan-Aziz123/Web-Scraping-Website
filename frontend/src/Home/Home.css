@@ -1,41 +1,113 @@
+/* Buying / Selling cards */
+.trade-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
 
-.order-now-btn,.sell-now-btn {
-    background: linear-gradient(135deg, #00358b, #002766); 
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    width: 100%;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-  }
-  
-  .order-now-btn:hover,.sell-now-btn:hover {
-    background: linear-gradient(135deg, #000, #000); 
-    transform: translateY(-3px); 
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
+.trade-card {
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary-soft-hover);
+}
 
-  .order-now-link,.sell-now-link {
-    width: 100%;
+.trade-card--accent {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent-soft);
+}
+
+.trade-card .icon-tile {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.trade-card__title {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+
+.trade-card__text {
+  margin-bottom: var(--space-5);
+}
+
+.order-now-link,
+.sell-now-link {
+  display: inline-block;
+}
+
+@media (max-width: 767.98px) {
+  .trade-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .order-now-btn span,.sell-now-btn span {
-    display: inline-block;
-    position: relative;
+  .trade-card {
+    padding: var(--space-5);
+    flex-direction: column;
+    gap: var(--space-4);
   }
-  
-  .order-now-btn span::after,.sell-now-btn span::after {
-    content: '→';
-    margin-left: 8px;
-    font-size: 16px;
-    transition: margin-left 0.3s;
+}
+
+/* Real-yard photo banner — image on one side, text on the other, so the
+   photo is always shown whole (no cropping, no letterboxing) and never
+   has text sitting on top of it. */
+.facility-banner {
+  padding: var(--space-8) 0;
+}
+
+.facility-banner__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-7);
+}
+
+.facility-banner__media {
+  flex: 1 1 50%;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.facility-banner__img {
+  width: 100%;
+  height: auto;
+  max-height: 440px;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+}
+
+.facility-banner__content {
+  flex: 1 1 50%;
+  min-width: 0;
+  padding-left: var(--space-6);
+}
+
+.facility-banner__title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  margin: var(--space-3) 0 var(--space-3);
+}
+
+.facility-banner__text {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+}
+
+@media (max-width: 767.98px) {
+  .facility-banner__row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-5);
   }
-  
-  .order-now-btn:hover span::after,.sell-now-btn:hover span::after {
-    margin-left: 12px;
+  .facility-banner__media,
+  .facility-banner__content {
+    flex: none;
+    padding-left: 0;
   }
+  .facility-banner__img {
+    max-height: 320px;
+  }
+}
+

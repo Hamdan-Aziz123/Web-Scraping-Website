@@ -101,7 +101,8 @@ const googleLogin = async (req, res) => {
           try {
             const role = "user"; // Default role
             const query = `INSERT INTO users (Email, FirstName, LastName, Role, GoogleId ) VALUES (?, ?, ?, ?,?)`;
-            conn.query(
+            // pool.query (not conn.query): the connection above was already released
+            pool.query(
               query,
               [user.email, user.given_name, user.family_name, role, user.sub],
               (err, results) => {
@@ -352,32 +353,21 @@ const forgetPassword = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   try {
-    pool.getConnection((err, conn) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).send("Password Reset Failed");
+    }
+    // Hash the password
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    // "?" placeholders + pool.query (connection is released automatically)
+    const query = `UPDATE users SET PasswordHash = ? WHERE Email = ? AND GoogleId IS NULL`;
+    pool.query(query, [hashedPassword, email], (err) => {
       if (err) {
-        // console.log("Error opening the connection!");
-        return;
+        console.error("Error in resetPassword:", err.message);
+        return res.status(400).send("Password Reset Failed");
       }
-      // console.log(
-      //   "Connection established successfully! in resetPassword in server"
-      // );
-      const { email, password } = req.body;
-      // console.log(
-      //   "email and password in resetPassword in server",
-      //   email,
-      //   password
-      // );
-      // Hash the password
-      const salt = bcrypt.genSaltSync(10);
-      const hashedPassword = bcrypt.hashSync(password, salt);
-      const query = `UPDATE users SET PasswordHash='${hashedPassword}' WHERE Email='${email}' and GoogleId is NULL`; // AND password='${password}'
-      conn.query(query, function (err, results) {
-        if (err) {
-          // console.log("Error executing query! in resetPassword in server ");
-          return;
-        }
-        // console.log("Query executed successfully! in resetPassword in server");
-        res.status(200).send("Password Reset Successfully");
-      });
+      res.status(200).send("Password Reset Successfully");
     });
   } catch (err) {
     res.status(400).send("Password Reset Failed");
