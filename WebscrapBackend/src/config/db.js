@@ -3,15 +3,28 @@ require('dotenv').config();
 const mysql = require('mysql2');
 
 const HOST = process.env.HOST || 'localhost';
+const PORT = process.env.DBPORT || 3306; // hosted providers (Aiven, PlanetScale, etc.) use a custom port, not the default 3306
 const USER  = process.env.DBUSER || 'root';
 const PASSWORD = process.env.PASSWORD || '';
 const DATABASE = process.env.DATABASE || 'scrapweb';
-console.log(`Connecting to MySQL database "${DATABASE}" on ${HOST}`);
+
+// Hosted MySQL providers (Aiven, etc.) require an encrypted (SSL) connection.
+// Local MySQL (XAMPP/localhost) does not need this, so it only turns on when
+// a CA certificate is actually provided via the DB_SSL_CA environment variable.
+// DB_SSL_CA should be the full contents of the CA certificate (the text you get
+// from your provider's "CA certificate" / "Show" button), pasted as-is.
+const ssl = process.env.DB_SSL_CA
+  ? { ca: process.env.DB_SSL_CA }
+  : undefined;
+
+console.log(`Connecting to MySQL database "${DATABASE}" on ${HOST}:${PORT}${ssl ? ' (SSL enabled)' : ''}`);
 const pool = mysql.createPool({
   host: HOST,      // MySQL host (localhost if using XAMPP)
+  port: PORT,
   user: USER,           // MySQL user (default
   password: PASSWORD,           // MySQL password (leave empty for default XAMPP user)
   database: DATABASE,   // Your database name
+  ssl,
   waitForConnections: true, // queue requests briefly when all connections are busy
   connectionLimit: 10,
   queueLimit: 0,
