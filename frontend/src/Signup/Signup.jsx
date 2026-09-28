@@ -33,30 +33,33 @@ const Signup = () => {
   const handleSignUp = async () => {
     const userData = { email, firstName, lastName, phone, password };
     const response = await dispatch(registerUser(userData));
-    if (response.payload) {
-      if (response.payload.error) {
-        if (response.payload.error === "User Already Exists or Signup Failed") {
-          setErrorMsg("User Already Exists or Signup Failed");
-        } else {
-          setErrorMsg("please try again later");
-        }
+    if (response.meta.requestStatus !== "fulfilled") {
+      const error = response.payload?.error || response.payload;
+      if (error === "User Already Exists or Signup Failed") {
+        setErrorMsg("User Already Exists or Signup Failed");
+      } else {
+        setErrorMsg("please try again later");
       }
+      return false;
     }
+    return true;
   };
 
   const handleSubmit = async (e) => {
     setErrorMsg("");
     setSuccessMsg("");
     e.preventDefault();
-    handleSignUp();
-    setEmail("");
-    setFirstName("");
-    setLastName("");
-    setPhone("");
-    setPassword("");
-    setConfirmPassword("");
-    setSuccessMsg("");
-    navigate("/");
+    const signedUp = await handleSignUp();
+    if (signedUp) {
+      setEmail("");
+      setFirstName("");
+      setLastName("");
+      setPhone("");
+      setPassword("");
+      setConfirmPassword("");
+      setSuccessMsg("");
+      navigate("/");
+    }
   };
 
   const handleGoogleSuccess = async (credentialResponse) => {

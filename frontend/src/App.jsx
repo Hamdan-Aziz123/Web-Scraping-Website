@@ -38,6 +38,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const location = useLocation(); // Use location to detect route changes
     const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const isAdmin = isAuthenticated && String(user?.role || "").trim().toLowerCase() === "admin";
   // Set up a loader when location changes
   useEffect(() => {
     setLoading(true); // Show loader when route changes
@@ -62,7 +63,7 @@ function App() {
 
   return (
     <>
-    {isAuthenticated && user.role === 'admin' 
+    {isAdmin 
     ?<>
       {loading? <Loader />:
       <>

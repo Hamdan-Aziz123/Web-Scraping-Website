@@ -30,28 +30,32 @@ const Login = () => {
   const handleLogin = async () => {
     const userData = { email, password };
     const response = await dispatch(loginUser(userData));
-    if (response.payload) {
-      if (response.payload.error) {
-        if (response.payload.error === "Email or Password Incorrect") {
-          setErrorMsg("Email or Password Incorrect");
-        } else {
-          setErrorMsg("please try again later");
-        }
+    if (response.meta.requestStatus !== "fulfilled") {
+      const error = response.payload?.error || response.payload;
+      if (error === "Email or Password Incorrect") {
+        setErrorMsg("Email or Password Incorrect");
+      } else {
+        setErrorMsg("please try again later");
       }
-      if (response.payload.message) {
-        setSuccessMsg(response.payload.message);
-      }
+      return false;
     }
+
+    if (response.payload?.message) {
+      setSuccessMsg(response.payload.message);
+    }
+    return true;
   };
 
   const handleSubmit = async (e) => {
     setErrorMsg("");
     setSuccessMsg("");
     e.preventDefault();
-    handleLogin();
-    await setEmail("");
-    setPassword("");
-    navigate("/");
+    const loggedIn = await handleLogin();
+    if (loggedIn) {
+      setEmail("");
+      setPassword("");
+      navigate("/");
+    }
   };
 
   const handleGoogleSuccess = async (credentialResponse) => {
