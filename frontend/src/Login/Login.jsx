@@ -61,14 +61,16 @@ const Login = () => {
   const handleGoogleSuccess = async (credentialResponse) => {
     setErrorMsg("");
     setSuccessMsg("");
-    const response = await dispatch(googleLoginUser(credentialResponse.credential));
-    if (response.payload) {
-      if (response.payload.error) {
-        setErrorMsg(response.payload.error);
-      } else {
-        navigate("/");
-      }
+    if (!credentialResponse.credential) {
+      setErrorMsg("Google did not return a login credential. Please try email/password login.");
+      return;
     }
+    const response = await dispatch(googleLoginUser(credentialResponse.credential));
+    if (response.meta.requestStatus !== "fulfilled") {
+      setErrorMsg(response.payload?.error || "Google sign-in failed. Please try again.");
+      return;
+    }
+    navigate("/");
   };
 
   const handleGoogleError = () => {
@@ -133,7 +135,9 @@ const Login = () => {
                     <GoogleLogin
                       onSuccess={handleGoogleSuccess}
                       onError={handleGoogleError}
+                      use_fedcm_for_button
                       shape="rectangular"
+                      text="signin_with"
                       width="320"
                     />
                   </ErrorBoundary>
