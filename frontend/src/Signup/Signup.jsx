@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -10,9 +10,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { registerUser, googleLoginUser } from "../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary.jsx";
 
@@ -77,42 +75,6 @@ const Signup = () => {
   const handleGoogleError = () => {
     setErrorMsg("Google sign-up failed. Please try again.");
   };
-
-  // Google Identity Services installs its own global click listener to
-  // detect "outside clicks" for its account picker/One Tap UI. That
-  // listener runs in the capture phase and can occasionally swallow a
-  // click before it ever reaches React's event handling, which is what
-  // made the "Log in" switch link unresponsive. Listening on `window` in
-  // the capture phase runs before that listener does (window's capture
-  // phase always fires first), so this guarantees the navigation happens
-  // regardless.
-  useEffect(() => {
-    // TEMP DEBUG: logs every click anywhere on the page so we can see what
-    // element actually receives the click when "Log in" is pressed.
-    // Safe to ignore/remove once we've confirmed the fix.
-    const logAnyClick = (e) => {
-      console.log(
-        "[switch-link-debug] window capture click on:",
-        e.target.tagName,
-        e.target.className
-      );
-    };
-    window.addEventListener("click", logAnyClick, true);
-
-    const handleSwitchLinkClick = (e) => {
-      const link = e.target.closest?.(".auth-card__switch-link");
-      if (link) {
-        console.log("[switch-link-debug] matched switch link, navigating to", link.getAttribute("href"));
-        e.preventDefault();
-        navigate(link.getAttribute("href"));
-      }
-    };
-    window.addEventListener("click", handleSwitchLinkClick, true);
-    return () => {
-      window.removeEventListener("click", logAnyClick, true);
-      window.removeEventListener("click", handleSwitchLinkClick, true);
-    };
-  }, [navigate]);
 
   return (
     <div className="auth-page">
@@ -213,39 +175,25 @@ const Signup = () => {
 
                 <div className="auth-card__divider"><span>or</span></div>
 
-                <div className="google-signin">
-                  <Button
-                    variant="outline-primary"
-                    className="w-100 google-signin__visible"
-                    tabIndex={-1}
-                    aria-hidden="true"
-                  >
-                    <FontAwesomeIcon icon={faGoogle} /> Sign up with Google
-                  </Button>
-                  <div className="google-signin__overlay">
-                    <ErrorBoundary>
-                      <GoogleLogin
-                        onSuccess={handleGoogleSuccess}
-                        onError={handleGoogleError}
-                        shape="rectangular"
-                        width="320"
-                      />
-                    </ErrorBoundary>
-                  </div>
+                <div className="google-signin" aria-label="Sign up with Google">
+                  <ErrorBoundary>
+                    <GoogleLogin
+                      onSuccess={handleGoogleSuccess}
+                      onError={handleGoogleError}
+                      shape="rectangular"
+                      width="320"
+                    />
+                  </ErrorBoundary>
                 </div>
 
                 <p className="auth-card__switch">
                   Already have an account?{" "}
-                  <a
-                    href="/login"
+                  <Link
+                    to="/login"
                     className="auth-card__switch-link"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate("/login");
-                    }}
                   >
                     Log in
-                  </a>
+                  </Link>
                 </p>
               </Card.Body>
             </Card>

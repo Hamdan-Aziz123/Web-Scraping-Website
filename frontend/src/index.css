@@ -802,41 +802,16 @@ img {
   background: var(--color-border);
 }
 
-/* Real Google button rendered invisibly on top of our styled button */
 .google-signin {
-  position: relative;
-  height: 44px;
-}
-
-.google-signin__visible {
-  pointer-events: none;
-}
-
-.google-signin__overlay {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  opacity: 0;
   display: flex;
-}
-
-.google-signin__overlay > div {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.google-signin__overlay iframe {
-  width: 100% !important;
-  height: 100% !important;
-  min-width: 100% !important;
+  justify-content: center;
+  min-height: 44px;
 }
 
 .auth-card__switch {
   text-align: center;
   font-size: var(--text-sm);
   margin: var(--space-5) 0 0;
-  position: relative;
-  z-index: 5;
 }
 
 .auth-card__switch a {
@@ -844,8 +819,6 @@ img {
 }
 
 .auth-card__switch-link {
-  position: relative;
-  z-index: 5;
   cursor: pointer;
 }
 
